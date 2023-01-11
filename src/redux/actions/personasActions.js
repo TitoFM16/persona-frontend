@@ -2,10 +2,7 @@ import {
           fetchPersonasStart, fetchPersonasSuccess,
           addPersonaStart   , addPersonaSuccess,
           updatePersonaStart, updatePersonaSuccess,
-          deletePersonaStart, deletePersonaSuccess,
-          openViewDialog    , closeViewDialog,
-          openEditDialog    , closeEditDialog,
-          openDeleteDialog  , closeDeleteDialog
+          deletePersonaStart, deletePersonaSuccess
         } from '../slices/personasSlice';
 import { baseUrl } from '../../shared/baseUrl';
 import axios from 'axios';
@@ -18,7 +15,7 @@ export const fetchPersonas = () => async (dispatch) => {
     const personas = await response.data;
     dispatch(fetchPersonasSuccess(personas));
   } catch (error) {
-    // Handle the error, for example by dispatching an action to show an error message
+    console.log(error)
   }
   // axios
   //   .get(baseUrl+'api/personas/')
@@ -26,7 +23,7 @@ export const fetchPersonas = () => async (dispatch) => {
   //   .then((personas) => dispatch(fetchPersonasSuccess(personas)));
 };
 
-export const createPersona = (persona) => (dispatch) => {
+export const createPersona = (persona) => async (dispatch) => {
   dispatch(addPersonaStart());
   axios
     .post(baseUrl+'api/personas/', persona)
@@ -34,10 +31,11 @@ export const createPersona = (persona) => (dispatch) => {
     .then((persona) => dispatch(addPersonaSuccess(persona)));
 };
 
-export const updatePersona = (persona) => (dispatch) => {
+export const updatePersona = (persona,id) => (dispatch) => {
   dispatch(updatePersonaStart());
+  
   axios
-    .patch(baseUrl+`api/personas/${persona.id}`, persona)
+    .put(baseUrl+`api/personas/${id}/`, persona)
     .then((response) => response.data)
     .then((persona) => dispatch(updatePersonaSuccess(persona)));
 };
@@ -45,17 +43,7 @@ export const updatePersona = (persona) => (dispatch) => {
 export const deletePersona = (personaId) => (dispatch) => {
   dispatch(deletePersonaStart());
   axios
-    .delete(baseUrl+`api/personas/${personaId}`)
+    .delete(baseUrl+`api/personas/${personaId}/`)
     .then((response) => response.data)
     .then((persona) => dispatch(deletePersonaSuccess(persona)));
 };
-
-export const handleViewClick = (persona) =>  (dispatch) => {
-  dispatch(openViewDialog(persona));
-}
-export const handleEditClick = (persona) =>  (dispatch) => {
-  dispatch(openEditDialog(persona));
-}
-export const handleDeleteClick = (persona) =>  (dispatch) => {
-  dispatch(openDeleteDialog(persona));
-}

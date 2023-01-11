@@ -5,10 +5,8 @@ const personaSlice = createSlice({
   name: 'personas',
   initialState: {
     personas: [],
-    loading: false,
-    viewDialog: { open: false, persona: {} },
-    editDialog: { open: false, persona: {} },
-    deleteDialog: { open: false, persona: {} }
+    loading: false
+
   },
   reducers: {
     fetchPersonasStart: (state) => {
@@ -39,28 +37,7 @@ const personaSlice = createSlice({
     deletePersonaSuccess: (state, action) => {
       state.personas = state.personas.filter((persona) => persona.id !== action.payload.id);
       state.loading = false;
-    },
-    openViewDialog: (state, action) => {
-      state.viewDialog.open = true;
-      state.viewDialog.persona = action.payload;
-    },
-    closeViewDialog: state => {
-        state.viewDialog.open = false;
-    },
-    openEditDialog: (state, action) => {
-        state.editDialog.open = true;
-        state.editDialog.persona = action.payload;
-    },
-    closeEditDialog: state => {
-        state.editDialog.open = false;
-    },
-    openDeleteDialog: (state, action) => {
-        state.deleteDialog.open = true;
-        state.deleteDialog.persona = action.payload;
-    },
-    closeDeleteDialog: state => {
-        state.deleteDialog.open = false;
-    },
+    }
   },
 });
 export const { 
@@ -68,9 +45,6 @@ export const {
             addPersonaStart   , addPersonaSuccess,
             updatePersonaStart, updatePersonaSuccess,
             deletePersonaStart, deletePersonaSuccess,
-            openViewDialog    , closeViewDialog,
-            openEditDialog    , closeEditDialog,
-            openDeleteDialog  , closeDeleteDialog
                } = personaSlice.actions;
 
 export default personaSlice.reducer;
