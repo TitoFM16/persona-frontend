@@ -4,9 +4,10 @@ import {
           updatePersonaStart, updatePersonaSuccess,
           deletePersonaStart, deletePersonaSuccess
         } from '../slices/personasSlice';
+import  personasStatus  from '../slices/statusSlice';
+
 import { baseUrl } from '../../shared/baseUrl';
 import axios from 'axios';
-import { useDispatch } from 'react-redux'
 
 export const fetchPersonas = () => async (dispatch) => {
   dispatch(fetchPersonasStart());
@@ -14,36 +15,53 @@ export const fetchPersonas = () => async (dispatch) => {
     const response = await axios.get(baseUrl+'api/personas/');
     const personas = await response.data;
     dispatch(fetchPersonasSuccess(personas));
+    dispatch(personasStatus('GET','Satisfactorio',personas));
   } catch (error) {
     console.log(error)
+    dispatch(personasStatus('GET','Error',error))
   }
-  // axios
-  //   .get(baseUrl+'api/personas/')
-  //   .then((response) => response.data)
-  //   .then((personas) => dispatch(fetchPersonasSuccess(personas)));
+
 };
 
 export const createPersona = (persona) => async (dispatch) => {
-  dispatch(addPersonaStart());
-  axios
+  try{
+    
+    dispatch(addPersonaStart());
+    axios
     .post(baseUrl+'api/personas/', persona)
     .then((response) => response.data)
-    .then((persona) => dispatch(addPersonaSuccess(persona)));
+    .then((persona) => dispatch(addPersonaSuccess(persona)),
+    dispatch(personasStatus('POST','Satisfactorio',persona)));
+  }catch(error){
+    console.log(error)
+    dispatch(personasStatus('POST','Error',error))
+  }
 };
 
 export const updatePersona = (persona,id) => (dispatch) => {
-  dispatch(updatePersonaStart());
-  
-  axios
+  try{
+
+    dispatch(updatePersonaStart());
+    axios
     .put(baseUrl+`api/personas/${id}/`, persona)
     .then((response) => response.data)
-    .then((persona) => dispatch(updatePersonaSuccess(persona)));
+    .then((persona) => dispatch(updatePersonaSuccess(persona)),dispatch(personasStatus('PUT','Satisfactorio',persona)));
+  }catch(error){
+    console.log(error)
+    dispatch(personasStatus('PUT','Error',error))
+  }
 };
 
 export const deletePersona = (personaId) => (dispatch) => {
-  dispatch(deletePersonaStart());
-  axios
+  try{
+
+    dispatch(deletePersonaStart());
+    axios
     .delete(baseUrl+`api/personas/${personaId}/`)
     .then((response) => response.data)
-    .then((persona) => dispatch(deletePersonaSuccess(persona)));
+    .then((persona) => dispatch(deletePersonaSuccess(persona)),dispatch(personasStatus('DELETE','Satisfactorio')));
+  }catch(error){
+    console.log(error)
+    dispatch(personasStatus('DELETE','Error',error))
+  }
 };

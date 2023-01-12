@@ -1,0 +1,21 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+
+
+const personasStatusSlice = createSlice ({
+  name :"status",
+  initialState:{
+    status:[]
+
+  },
+  reducers:{
+    personasStatus : (state, action) =>{
+      state.status = state.status.push(action.payload);
+    }
+  }
+})
+export const { 
+            personasStatus
+               } = personasStatusSlice.actions;
+
+export default personasStatusSlice.reducer;

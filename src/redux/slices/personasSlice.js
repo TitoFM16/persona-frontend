@@ -44,7 +44,7 @@ export const {
             fetchPersonasStart, fetchPersonasSuccess,
             addPersonaStart   , addPersonaSuccess,
             updatePersonaStart, updatePersonaSuccess,
-            deletePersonaStart, deletePersonaSuccess,
+            deletePersonaStart, deletePersonaSuccess
                } = personaSlice.actions;
 
 export default personaSlice.reducer;

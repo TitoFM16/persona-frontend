@@ -1,7 +1,7 @@
 import React ,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Paper, Modal,FormControl, InputLabel, Input, FormHelperText, } from '@mui/material/';
+import {useDispatch} from 'react-redux';
+import { Box, Button, MenuItem, Table, TableBody, TableCell, TableHead, TableRow, Typography, Select,Paper, Modal,FormControl, InputLabel, Input, FormHelperText, } from '@mui/material/';
 import { createPersona,updatePersona, deletePersona } from '../redux/actions/personasActions';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -58,6 +58,9 @@ function PersonasTable({personas}) {
             hobbies        : hobbiesAdd
         }
         dispatch(createPersona(persona_add))
+        alert(`Persona creada${JSON.stringify(persona_add)}`)
+        setOpenAdd(false)
+        navigate("/");
     }
 
     const handleCloseAdd   = () => setOpenAdd(false);
@@ -90,6 +93,9 @@ function PersonasTable({personas}) {
             hobbies        : hobbiesEdit
         }
         dispatch(updatePersona(persona_edit,selectedPersona.id))
+        alert(`Persona editada${JSON.stringify(persona_edit)}`);
+        setOpenEdit(false);
+        navigate("/");
     }
 
     const handleDeleteClick = (persona) => {
@@ -98,7 +104,10 @@ function PersonasTable({personas}) {
     }
 
     const handleDeleteSubmit = (persona) =>{
-        dispatch(deletePersona(persona.id))
+        dispatch(deletePersona(persona.id));
+        alert(`Persona eliminada${JSON.stringify(persona)}`);
+        setOpenDelete(false)
+        navigate("/");
     }
     const handleCloseDelete = () => setOpenDelete(false);
 
@@ -152,11 +161,22 @@ function PersonasTable({personas}) {
                     </Typography>
                
                     <form>
-                    <Typography id="mod0al-modal-description" sx={{ mt: 2 }}>
+                    <Typography id="mod0al-modal-description" sx={{ mt: 4 }}>
                     <Box  my={2}>
                         <FormControl>
                             <InputLabel htmlFor="tipo_documento">Tipo Documento</InputLabel>
-                            <Input id="tipo_documento" value={tipo_documentoAdd} onChange={(e) => setAddTipoDocumento(e.target.value)} />
+                            <Select
+                                labelId="tipo_documento"
+                                
+                                value={tipo_documentoAdd}
+                                label="Age"
+                                onChange={(e) => setAddTipoDocumento(e.target.value)}
+                            >
+                                <MenuItem value={"CC"}>CC</MenuItem>
+                                <MenuItem value={"TI"}>TI</MenuItem>
+                                <MenuItem value={"CE"}>CE</MenuItem>
+                            </Select>
+                            {/* <Input id="tipo_documento" value={tipo_documentoAdd} onChange={(e) => setAddTipoDocumento(e.target.value)} /> */}
                         </FormControl>
                     </Box>
                     <Box  my={2}>
@@ -208,7 +228,18 @@ function PersonasTable({personas}) {
                     <Box  my={2}>
                         <FormControl>
                             <InputLabel htmlFor="tipo_documento">Tipo Documento</InputLabel>
-                            <Input id="tipo_documento" value={tipo_documentoEdit} onChange={(e) => setEditTipoDocumento(e.target.value)} />
+                            <Select
+                                labelId="tipo_documento"
+                                
+                                value={tipo_documentoEdit}
+                                label="Age"
+                                onChange={(e) => setEditTipoDocumento(e.target.value)}
+                            >
+                                <MenuItem value={"CC"}>CC</MenuItem>
+                                <MenuItem value={"TI"}>TI</MenuItem>
+                                <MenuItem value={"CE"}>CE</MenuItem>
+                            </Select>
+                            {/* <Input id="tipo_documento" value={tipo_documentoEdit} onChange={(e) => setEditTipoDocumento(e.target.value)} /> */}
                         </FormControl>
                     </Box>
                     <Box  my={2}>
